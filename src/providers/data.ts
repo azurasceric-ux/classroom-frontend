@@ -1,6 +1,6 @@
 import { BACKEND_BASE_URL } from "@/constants";
 import { ListResponse } from "@/types";
-import { HttpError } from "@refinedev/core";
+import { CreateResponse, HttpError } from "@refinedev/core";
 import { CreateDataProviderOptions, createDataProvider } from "@refinedev/rest";
 
 if (!BACKEND_BASE_URL) {
@@ -47,6 +47,17 @@ const options: CreateDataProviderOptions = {
                         params.search = value;
                     }
                 }
+                if (resource === 'classes') {
+                    if (field === 'subject') {
+                        params.subject = value;
+                    }
+                    if (field === 'teacher') {
+                        params.teacher = value;
+                    }
+                    if (field === 'name') {
+                        params.search = value;
+                    }
+                }
             })
             return params;
         },
@@ -61,6 +72,18 @@ const options: CreateDataProviderOptions = {
             if (!response.ok) throw await buildHttpError(response);
             const payload: ListResponse = await response.clone().json();
             return payload.pagination?.totalCount ?? 0;
+        },
+    },
+
+    create: {
+        getEndpoint: ({ resource }) => resource,
+
+        buildBodyParams: async ({ variables }) => variables,
+
+        mapResponse: async (response) => {
+            if (!response.ok) throw await buildHttpError(response);
+            const payload: CreateResponse = await response.json();
+            return payload.data ?? [];
         },
     }
 }
