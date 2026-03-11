@@ -47,7 +47,7 @@ const options: CreateDataProviderOptions = {
                         params.search = value;
                     }
                 }
-                if (resource === 'classes') {
+                else if (resource === 'classes') {
                     if (field === 'subject') {
                         params.subject = value;
                     }
@@ -83,9 +83,16 @@ const options: CreateDataProviderOptions = {
         mapResponse: async (response) => {
             if (!response.ok) throw await buildHttpError(response);
             const payload: CreateResponse = await response.json();
-            return payload.data ?? [];
+            if (!payload.data) {
+                throw {
+                    message: "Create response is missing `data`.",
+                    statusCode: response.status,
+                } as HttpError;
+            }
+
+            return payload.data;
         },
-    }
+    },
 }
 
 const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options);
