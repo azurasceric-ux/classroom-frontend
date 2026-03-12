@@ -11,6 +11,7 @@ import { ClassDetails, Subject } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { ColumnDef } from "@tanstack/react-table";
+import { ShowButton } from "@/components/refine-ui/buttons/show";
 
 const ListClasses = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -94,6 +95,13 @@ const ListClasses = () => {
                 header: () => <p className="column-title">Capacity</p>,
                 cell: ({ getValue }) => <span className="truncate line-clamp-2">{getValue<number>()}</span>
             },
+            {
+                id: 'details',
+                size: 70,
+                header: () => <p className="column-title">Details</p>,
+                cell: ({ row }) => <ShowButton resource="classes" recordItemId={row.original.id}
+                    variant="outline" size="sm">View</ShowButton>
+            }
 
         ], []),
         refineCoreProps: {
