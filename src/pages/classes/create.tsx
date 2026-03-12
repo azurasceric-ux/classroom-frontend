@@ -24,7 +24,7 @@ import { Loader2 } from "lucide-react";
 import { Subject, User } from "@/types";
 
 
-const Create = () => {
+const CreateClass = () => {
     const back = useBack();
 
     const form = useForm({
@@ -283,4 +283,4 @@ const Create = () => {
     );
 };
 
-export default Create;
+export default CreateClass;
