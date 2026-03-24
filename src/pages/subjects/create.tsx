@@ -48,7 +48,6 @@ const CreateSubject = () => {
     } = form;
 
     const onSubmit = async (values: z.infer<typeof subjectSchema>) => {
-        console.log(values);
         try {
             await onFinish(values);
         } catch (error) {
