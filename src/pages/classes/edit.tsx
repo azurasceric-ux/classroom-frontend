@@ -250,7 +250,11 @@ const EditClass = () => {
 
                                 <Separator />
 
-                                <Button type="submit" size="lg" className="w-full">
+                                <Button
+                                    type="submit"
+                                    size="lg"
+                                    className="w-full"
+                                    disabled={isSubmitting || subjectsLoading || teachersLoading}>
                                     {isSubmitting ? (
                                         <div className="flex gap-1 items-center">
                                             <span>Saving Changes...</span>

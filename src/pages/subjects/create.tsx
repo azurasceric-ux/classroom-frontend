@@ -29,6 +29,11 @@ const CreateSubject = () => {
 
     const form = useForm({
         resolver: zodResolver(subjectSchema),
+        defaultValues: {
+            name: "",
+            code: "",
+            description: "",
+        },
         refineCoreProps: {
             resource: "subjects",
             action: "create",
@@ -43,6 +48,7 @@ const CreateSubject = () => {
     } = form;
 
     const onSubmit = async (values: z.infer<typeof subjectSchema>) => {
+        console.log(values);
         try {
             await onFinish(values);
         } catch (error) {
@@ -106,7 +112,7 @@ const CreateSubject = () => {
                                 <div className="grid sm:grid-cols-2 gap-4">
                                     <FormField
                                         control={control}
-                                        name="department"
+                                        name="departmentId"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
@@ -114,7 +120,7 @@ const CreateSubject = () => {
                                                 </FormLabel>
                                                 <Select
                                                     onValueChange={(value) =>
-                                                        field.onChange(Number(value))
+                                                        field.onChange(value)
                                                     }
                                                     value={field.value?.toString()}
                                                     disabled={departmentsLoading}
@@ -177,7 +183,7 @@ const CreateSubject = () => {
 
                                 <Separator />
 
-                                <Button type="submit" size="lg" className="w-full">
+                                <Button type="submit" size="lg" className="w-full" disabled={isSubmitting || departmentsLoading}>
                                     {isSubmitting ? (
                                         <div className="flex gap-1">
                                             <span>Creating Class...</span>
