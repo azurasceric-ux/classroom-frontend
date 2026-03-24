@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BACKEND_BASE_URL, DEPARTMENT_OPTIONS } from "@/constants";
 import { useTable } from "@refinedev/react-table";
 import { Search } from "lucide-react";
-import { Subject } from "@/types";
+import { Department, Subject } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { ColumnDef } from "@tanstack/react-table";
@@ -16,7 +16,7 @@ const SubjectsList = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const [selectedDepartment, setSelectedDepartment] = useState("all");
-    const [departments, setDepartments] = useState<{ name: string }[]>([]);
+    const [departments, setDepartments] = useState<Department[]>([]);
 
     const departmentFilter = selectedDepartment === "all"
         ? []
@@ -30,7 +30,7 @@ const SubjectsList = () => {
     useEffect(() => {
         fetch(`${BACKEND_BASE_URL}departments`)
             .then(res => res.json())
-            .then(setDepartments)
+            .then(json => setDepartments(json.data || []))
             .catch(console.error);
     }, []);
 
@@ -112,7 +112,9 @@ const SubjectsList = () => {
                             <SelectContent>
                                 <SelectItem value="all">All Departments</SelectItem>
                                 {departments.map(department => (
-                                    <SelectItem key={department.name} value={department.name}>
+                                    <SelectItem
+                                        key={department.name}
+                                        value={department.name}>
                                         {department.name}
                                     </SelectItem>
                                 ))}
