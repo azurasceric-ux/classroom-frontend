@@ -37,6 +37,7 @@ export const ShowViewHeader = ({
   title: titleFromProps,
   wrapperClassName,
   headerClassName,
+  children,
 }: ShowViewHeaderProps) => {
   const back = useBack();
 
@@ -82,6 +83,7 @@ export const ShowViewHeader = ({
         </div>
 
         <div className="flex items-center gap-2">
+          {children}
           <RefreshButton
             variant="outline"
             recordItemId={recordItemId}

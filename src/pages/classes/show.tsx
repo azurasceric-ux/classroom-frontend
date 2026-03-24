@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { ClassDetails } from "@/types";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useShow } from "@refinedev/core";
+import { DeleteButton } from "@/components/refine-ui/buttons/delete";
 
 const ShowClass = () => {
     const { query } = useShow<ClassDetails>({ resource: "classes" });
@@ -27,7 +28,10 @@ const ShowClass = () => {
     const { subject, department, teacher, name, description, status, capacity } = ClassDetails;
     return (
         <ShowView className="class-view class-show">
-            <ShowViewHeader resource="classes" title="Class Details" />
+            <ShowViewHeader resource="classes" title="Class Details">
+                <DeleteButton resource="classes" recordItemId={ClassDetails.id} />
+            </ShowViewHeader>
+
             <Card className="details-card">
                 <div className="details-header">
                     <div>

@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { ColumnDef } from "@tanstack/react-table";
 import { ShowButton } from "@/components/refine-ui/buttons/show";
+import { DeleteButton } from "@/components/refine-ui/buttons/delete";
 
 const ListClasses = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -96,11 +97,15 @@ const ListClasses = () => {
                 cell: ({ getValue }) => <span className="truncate line-clamp-2">{getValue<number>()}</span>
             },
             {
-                id: 'details',
-                size: 70,
-                header: () => <p className="column-title">Details</p>,
-                cell: ({ row }) => <ShowButton resource="classes" recordItemId={row.original.id}
-                    variant="outline" size="sm">View</ShowButton>
+                id: 'actions',
+                size: 100,
+                header: () => <p className="column-title ">Actions</p>,
+                cell: ({ row }) => (
+                    <div className="flex gap-2 ">
+                        <ShowButton resource="classes" recordItemId={row.original.id} variant="outline" size="sm">View</ShowButton>
+                        <DeleteButton resource="classes" recordItemId={row.original.id} size="sm">Delete</DeleteButton>
+                    </div>
+                )
             }
 
         ], []),

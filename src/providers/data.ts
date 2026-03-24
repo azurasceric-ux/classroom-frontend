@@ -110,6 +110,44 @@ const options: CreateDataProviderOptions = {
             return payload.data;
         },
     },
+
+    update: {
+        getRequestMethod: () => "put",
+        getEndpoint: ({ resource, id }) => `${resource}/${id}`,
+
+        buildBodyParams: async ({ variables }) => variables,
+
+        mapResponse: async (response) => {
+            if (!response.ok) throw await buildHttpError(response);
+            const payload: CreateResponse = await response.json();
+            if (!payload.data) {
+                throw {
+                    message: "Update response is missing `data`.",
+                    statusCode: response.status,
+                } as HttpError;
+            }
+
+            return payload.data;
+        },
+    },
+    /*
+        delete: {
+            getEndpoint: ({ resource, id }) => `${resource}/${id}`,
+    
+            mapResponse: async (response) => {
+                if (!response.ok) throw await buildHttpError(response);
+                const payload: CreateResponse = await response.json();
+                if (!payload.data) {
+                    throw {
+                        message: "Delete response is missing `data`.",
+                        statusCode: response.status,
+                    } as HttpError;
+                }
+    
+                return payload.data;
+            },
+        },
+        */
 }
 
 const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options);
