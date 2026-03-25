@@ -21,6 +21,7 @@ import ListClasses from "./pages/classes/list";
 import CreateClass from "./pages/classes/create";
 import ShowClass from "./pages/classes/show";
 import EditClass from "./pages/classes/edit";
+import EditSubject from "./pages/subjects/edit";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
                   name: 'subjects',
                   list: '/subjects',
                   create: '/subjects/create',
+                  edit: '/subjects/edit/:id',
                   meta: { label: 'Subjects', icon: <BookOpen /> }
                 },
                 {
@@ -70,6 +72,7 @@ function App() {
                   <Route path="/subjects">
                     <Route index element={<SubjectsList />} />
                     <Route path="create" element={<SubjectsCreate />} />
+                    <Route path="edit/:id" element={<EditSubject />} />
                   </Route>
 
                   <Route path="/classes">
