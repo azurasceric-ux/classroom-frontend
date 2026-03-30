@@ -1,13 +1,9 @@
-import { CreateView } from "@/components/refine-ui/views/create-view.tsx";
-import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { useBack } from "@refinedev/core";
-import { Separator } from "@/components/ui/separator.tsx";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { departmentSchema } from "@/lib/schema.ts";
-import * as z from "zod";
-import { useForm } from "@refinedev/react-hook-form"
+import { EditView, EditViewHeader } from "@/components/refine-ui/views/edit-view";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
     Form,
     FormControl,
@@ -15,14 +11,14 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea.tsx";
+} from "@/components/ui/form";
+import { departmentSchema } from "@/lib/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "@refinedev/react-hook-form";
 import { Loader2 } from "lucide-react";
+import * as z from "zod";
 
-const CreateDepartment = () => {
-    const back = useBack();
-
+const EditDepartment = () => {
     const form = useForm({
         resolver: zodResolver(departmentSchema),
         defaultValues: {
@@ -31,8 +27,8 @@ const CreateDepartment = () => {
         },
         refineCoreProps: {
             resource: "departments",
-            action: "create",
-        }
+            action: "edit",
+        },
     });
 
     const {
@@ -46,25 +42,19 @@ const CreateDepartment = () => {
         try {
             await onFinish(values);
         } catch (error) {
-            console.error("Error creating department:", error);
+            console.error("Error updating department:", error);
         }
     };
 
     return (
-        <CreateView className="class-view">
-            <Breadcrumb />
+        <EditView className="class-view">
+            <EditViewHeader resource="departments" title="Edit Department" />
 
-            <h1 className="page-title">Create a Department</h1>
-            <div className="intro-row">
-                <p>Provide the required information below to add a department.</p>
-                <Button onClick={() => back()}>Go Back</Button>
-            </div>
-            <Separator />
             <div className="my-4 flex items-center">
                 <Card className="class-form-card">
                     <CardHeader className="relative z-10">
                         <CardTitle className="text-2xl pb-0 font-bold text-gradient-orange">
-                            Fill out form
+                            Edit Department Details
                         </CardTitle>
                     </CardHeader>
 
@@ -113,14 +103,18 @@ const CreateDepartment = () => {
 
                                 <Separator />
 
-                                <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                                <Button
+                                    type="submit"
+                                    size="lg"
+                                    className="w-full"
+                                    disabled={isSubmitting}>
                                     {isSubmitting ? (
-                                        <div className="flex gap-1 justify-center items-center">
-                                            <span>Creating Department...</span>
+                                        <div className="flex gap-1 items-center justify-center">
+                                            <span>Saving Changes...</span>
                                             <Loader2 className="inline-block ml-2 animate-spin" />
                                         </div>
                                     ) : (
-                                        "Create Department"
+                                        "Save Changes"
                                     )}
                                 </Button>
                             </form>
@@ -128,8 +122,8 @@ const CreateDepartment = () => {
                     </CardContent>
                 </Card>
             </div>
-        </CreateView>
+        </EditView>
     );
 };
 
-export default CreateDepartment;
+export default EditDepartment;
