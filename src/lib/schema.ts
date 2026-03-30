@@ -64,3 +64,22 @@ export const enrollmentSchema = z.object({
         .min(1, "Class ID is required"),
     studentId: z.string().min(1, "Student ID is required"),
 });
+
+export const departmentSchema = z.object({
+    name: z.string().min(2, "Department name must be at least 2 characters"),
+    description: z.string().min(5, "Department description must be at least 5 characters"),
+});
+
+export const loginSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+export const registerSchema = z.object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    role: z.enum(["admin", "teacher", "student"], {
+        required_error: "Please select a role",
+    }),
+});
